@@ -13,7 +13,7 @@ db.on('error', err => {
 db.once('open', ()=>{
     console.log("connect success!")
     let user = new User({
-        username:'qspeng',
+        username:'admin',
         password:'123456'
     })
     user.save()
