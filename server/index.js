@@ -3,6 +3,7 @@ const config = require('./config')
 const app = express()
 
 const mongoose = require('mongoose')
+const User =require('./models/User')
 
 mongoose.connect(config.DBURI)
 let db = mongoose.connection
@@ -11,6 +12,11 @@ db.on('error', err => {
 })
 db.once('open', ()=>{
     console.log("connect success!")
+    let user = new User({
+        username:'qspeng',
+        password:'123456'
+    })
+    user.save()
 })
 
 app.get('/',(req,res)=>{
