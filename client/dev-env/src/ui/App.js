@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
-import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import Radium, {StyleRoot} from 'radium';
 import Header from './shared/Header';
@@ -26,6 +25,7 @@ class App extends Component{
         <StyleRoot>
             <div style={styles.root}>
                 <Header/>
+                { this.props.children }
             </div>
 0        </StyleRoot>
         );

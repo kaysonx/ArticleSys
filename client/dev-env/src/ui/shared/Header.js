@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
 import ActionHome from 'material-ui/svg-icons/action/home';
+import { Link } from 'react-router';
 
-class Header extends Component{
-    getStyles(){
+class Header extends Component {
+    getStyles() {
         const styles = {
             header: {
                 position: 'fixed',
@@ -35,17 +36,22 @@ class Header extends Component{
         return styles;
 
     }
-    render(){
+
+    render() {
         const styles = this.getStyles();
         return (
-          <header style={styles.header}>
-              <div>
-                  <a href="/" key='1' style={styles.nav}>
-                      <ActionHome color="#FFF"/>
-                  </a>
-              </div>
-              <div><a href="/login" key='2' style={styles.nav}>Login</a></div>
-          </header>
+            <header style={styles.header}>
+                <div>
+                    <Link to="/" key='1' style={styles.nav}>
+                        <ActionHome color="#FFF"/>
+                    </Link>
+                </div>
+                <div>
+                    <Link to="/login" key='2' style={styles.nav}>
+                        Login
+                    </Link>
+                </div>
+            </header>
         );
     }
 }
