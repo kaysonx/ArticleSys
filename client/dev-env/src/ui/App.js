@@ -4,30 +4,30 @@ import PropTypes from 'prop-types';
 import Radium, {StyleRoot} from 'radium';
 import Header from './shared/Header';
 
-class App extends Component{
-    getChildContext(){
+class App extends Component {
+    getChildContext() {
         return {muiTheme: getMuiTheme()};
-        }
+    }
 
-    getStyles(){
+    getStyles() {
         const styles = {
-            root:{
-                paddingTop:'47px',
-                minHeight:400,
+            root: {
+                paddingTop: '47px',
+                minHeight: 400,
             }
         };
         return styles;
     }
 
-    render(){
+    render() {
         const styles = this.getStyles();
         return (
-        <StyleRoot>
-            <div style={styles.root}>
-                <Header/>
-                { this.props.children }
-            </div>
-0        </StyleRoot>
+            <StyleRoot>
+                <div style={styles.root}>
+                    <Header/>
+                    { this.props.children }
+                </div>
+                0 </StyleRoot>
         );
 
     }
