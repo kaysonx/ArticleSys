@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
 import ActionHome from 'material-ui/svg-icons/action/home';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {logout} from '../../redux/actions/authActions'
+
 
 class Header extends Component {
+    constructor(){
+        super();
+        this.logout = this.logout.bind(this);
+    }
     getStyles() {
         const styles = {
             header: {
@@ -37,8 +45,26 @@ class Header extends Component {
 
     }
 
+    logout(e){
+        e.preventDefault();
+        this.props.logout();
+    }
+
+
     render() {
         const styles = this.getStyles();
+        const {isAuthenticated, currentUser} = this.props.auth;
+        const LogoutLink = (
+            <div>
+                <span style={{color: 'rgb(255,226, 0)', paddingRight: '15px'}}>{ currentUser.name }</span>
+                <Link to='/' onClick={this.logout} style={styles.nav}>退出</Link>
+            </div>
+        );
+        const LoginLink = (
+            <div>
+                <Link to='/login' style={styles.nav}>登录</Link>
+            </div>
+        );
         return (
             <header style={styles.header}>
                 <div>
@@ -47,13 +73,21 @@ class Header extends Component {
                     </Link>
                 </div>
                 <div>
-                    <Link to="/login" key='2' style={styles.nav}>
-                        Login
-                    </Link>
+                    {isAuthenticated ? LogoutLink : LoginLink}
                 </div>
             </header>
         );
     }
 }
 
-export default Radium(Header);
+Header.protoTypes = {
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+};
+
+export default connect(mapStateToProps, {logout})(Radium(Header));
