@@ -13,20 +13,34 @@ module.exports = app => {
         res.send('Hello Express!')
     })
     app.post('/auth/login', (req, res) => {
-        User.findOne({ username: req.body.username }, (err, user) => {
+        User.findOne({username: req.body.username}, (err, user) => {
             if (err) return console.log(err)
             if (!user) {
-                return res.status(403).json({ error: '用户名不存在!' })
+                return res.status(403).json({error: '用户名不存在!'})
             }
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (err) return console.log(err)
                 if (!isMatch) {
-                    return res.status(403).json({ error: '密码错误!' })
+                    return res.status(403).json({error: '密码错误!'})
                 }
                 return res.json({
-                    token: generateToken({ name: user.username }),
-                    user: { name: user.username }
+                    token: generateToken({name: user.username}),
+                    user: {name: user.username}
                 })
+            })
+        })
+    })
+    app.post('/auth/signup', (req, res) => {
+        let user = new User()
+        user.username = req.body.username
+        user.password = req.body.password
+        user.save(err => {
+            if (err) {
+                return console.log(err)
+            }
+            return res.status(200).json({
+                token: generateToken({name: user.username}),
+                user: {name: user.username}
             })
         })
     })

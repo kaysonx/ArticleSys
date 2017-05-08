@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const routes = require('./routes')
 const cors = require('cors')
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors())
@@ -23,11 +23,6 @@ db.on('error', err => {
 })
 db.once('open', () => {
     console.log("connect success!")
-    let user = new User({
-        username: 'admin',
-        password: '123456'
-    })
-    user.save()
 })
 
 app.listen(config.PORT, () => {
