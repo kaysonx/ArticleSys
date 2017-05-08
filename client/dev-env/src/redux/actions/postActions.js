@@ -10,6 +10,16 @@ const handleError = (error) => {
     }
 };
 
+export const fetchPosts = () => {
+    return dispatch => {
+        axios.get(`${Settings.host}/posts`)
+            .then(response => {
+                dispatch({type: 'LOAD_POSTS', posts: response.data.posts})
+            })
+            .catch(error => handleError(error))
+    }
+};
+
 export const newPost = (data) => {
     return dispatch => {
         axios.post(`${Settings.host}/posts`, data, {

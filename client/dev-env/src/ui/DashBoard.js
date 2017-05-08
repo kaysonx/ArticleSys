@@ -4,8 +4,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
 import PostItem from './PostItem';
 import PropTypes from 'prop-types';
+import {fetchPosts} from '../redux/actions/postActions';
 
 class DashBoard extends Component {
+
+    componentWillMount(){
+        if(this.props.posts.length === 0){
+            this.props.fetchPosts();
+        }
+    }
+
     getStyles() {
         return {
             root: {
@@ -49,4 +57,4 @@ const mapStateToProps = (state) =>{
     }
 };
 
-export default connect(mapStateToProps)(DashBoard);
+export default connect(mapStateToProps, {fetchPosts})(DashBoard);

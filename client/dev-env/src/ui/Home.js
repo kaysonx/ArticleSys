@@ -2,8 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PostItem from './PostItem';
 import PropTypes from 'prop-types';
+import {fetchPosts} from '../redux/actions/postActions';
 
 class Home extends Component {
+    componentWillMount() {
+        if (this.props.posts.length === 0) {
+            this.props.fetchPosts();
+        }
+    }
+
     getStyles() {
         return {
             root: {
@@ -36,4 +43,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, {fetchPosts})(Home);

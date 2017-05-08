@@ -85,4 +85,15 @@ module.exports = app => {
             })
         })
     })
+    app.get('/posts', (req, res) => {
+        Post.find({}, 'title', (err, posts) => {
+            if (err) {
+                return console.log(err)
+            }
+            res.status(200).json({
+                posts: posts,
+                message: '获取文章成功!'
+            })
+        })
+    })
 }
