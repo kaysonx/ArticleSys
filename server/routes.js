@@ -73,7 +73,7 @@ module.exports = app => {
     })
     app.post('/posts', requireAuth, (req, res) => {
         let post = new Post()
-        post.name = req.body.name
+        post.title = req.body.title
         post.content = req.body.content
         post.save(err => {
             if (err) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, browserHistory} from 'react-router';
+import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import App from './ui/App';
 import LogIn from './auth/LogIn';
 import {Provider} from 'react-redux';
@@ -8,6 +8,7 @@ import {setCurrentUser} from './redux/actions/authActions';
 import SignUp from './auth/SignUp';
 import DashBoard from './ui/DashBoard';
 import NewPost from './ui/NewPost';
+import Home from './ui/Home';
 
 if (sessionStorage.jwtToken) {
     const user = JSON.parse(sessionStorage.user);
@@ -32,6 +33,7 @@ export const renderRoutes = () => (
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path='/' component={App}>
+                <IndexRoute component={Home}/>
                 <Route path='/login' component={LogIn}/>
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/dashboard' component={DashBoard} onEnter={requireAuth}/>
