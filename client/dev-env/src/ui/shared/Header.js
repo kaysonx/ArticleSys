@@ -31,6 +31,7 @@ class Header extends Component {
             },
             nav: {
                 color: 'white',
+                paddingLeft:'20px',
                 opacity: '.8',
                 fontWeight: '600',
                 fontSize: '1em',
@@ -63,6 +64,7 @@ class Header extends Component {
         const LoginLink = (
             <div>
                 <Link to='/login' style={styles.nav}>登录</Link>
+                <Link to='/signup' style={styles.nav}>注册</Link>
             </div>
         );
         return (

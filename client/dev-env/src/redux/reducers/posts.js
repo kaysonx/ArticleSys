@@ -1,3 +1,8 @@
-/**
- * Created by Administrator on 2017/5/8.
- */
+export default (state = [], action = {}) => {
+    switch (action.type) {
+        case 'ADD_POST':
+            return [...state, action.post];
+        default:
+            return state;
+    }
+};

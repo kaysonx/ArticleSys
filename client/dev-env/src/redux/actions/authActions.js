@@ -18,13 +18,31 @@ export const setCurrentUser = (user) => {
 };
 
 export const logout = () => {
-  return dispatch => {
-      console.log('退出登录...');
-      sessionStorage.removeItem('jwtToken');
-      sessionStorage.removeItem('user');
-      dispatch(setCurrentUser({}));
-      browserHistory.push('/');
-  }
+    return dispatch => {
+        console.log('退出登录...');
+        sessionStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('user');
+        dispatch(setCurrentUser({}));
+        browserHistory.push('/');
+    }
+};
+
+export const signup = (data) => {
+    return dispatch => {
+        axios.post(`${Settings.host}/auth/signup`, data)
+            .then(response => {
+                const token = response.data.token;
+                const user = response.data.user;
+                sessionStorage.setItem('jwtToken', token);
+                sessionStorage.setItem('user', JSON.stringify(user));
+                dispatch(setCurrentUser(user));
+                browserHistory.push('/');
+                console.log('注册成功...');
+            })
+            .catch(error => {
+                handleError(error);
+            })
+    }
 };
 
 
@@ -37,8 +55,9 @@ export const login = (data) => {
                 sessionStorage.setItem('jwtToken', token);
                 sessionStorage.setItem('user', JSON.stringify(user));
                 dispatch(setCurrentUser(user));
-                browserHistory.push('/');
-                console.log('登录成功！');
+                user.admin ? browserHistory.push('/dashboard') : browserHistory.push('/');
+                // browserHistory.push('/');
+                console.log('登录成功...');
             })
             .catch(error => {
                 handleError(error);
