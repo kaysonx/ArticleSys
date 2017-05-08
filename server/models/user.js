@@ -5,11 +5,12 @@ let bcrypt = require('bcryptjs')
 
 let UserSchema = new Schema(
     {
-        username: { type: String, unique: true, required: true },
-        password: { type: String, required: true }
+        username: {type: String, unique: true, required: true},
+        password: {type: String, required: true},
+        admin: {type: Boolean, default: false}
     },
     {
-        timestamps:true
+        timestamps: true
     })
 
 //箭头函数this是global拿不到user
@@ -27,7 +28,7 @@ UserSchema.pre('save', function (next) {
 
 UserSchema.methods.comparePassword = function (password, callback) {
     bcrypt.compare(password, this.password, function (err, isMathch) {
-        if(err) return callback(err)
+        if (err) return callback(err)
         callback(null, isMathch)
     })
 }

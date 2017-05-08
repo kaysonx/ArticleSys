@@ -14,7 +14,7 @@ app.use(cors())
 routes(app)
 
 const mongoose = require('mongoose')
-const User = require('./models/User')
+const User = require('./models/user')
 
 mongoose.connect(config.DBURI)
 let db = mongoose.connection
