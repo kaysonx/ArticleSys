@@ -4,6 +4,7 @@ import BasicForm from './BasicForm';
 import {connect} from 'react-redux';
 import {newPost} from '../redux/actions/postActions';
 
+
 class NewPost extends Component {
     constructor(){
         super();
