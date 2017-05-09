@@ -9,6 +9,8 @@ import SignUp from './auth/SignUp';
 import DashBoard from './ui/DashBoard';
 import NewPost from './ui/NewPost';
 import Home from './ui/Home';
+import ShowPost from './ui/ShowPost';
+import EditPost from './ui/EditPost';
 
 if (sessionStorage.jwtToken) {
     const user = JSON.parse(sessionStorage.user);
@@ -38,6 +40,8 @@ export const renderRoutes = () => (
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/dashboard' component={DashBoard} onEnter={requireAuth}/>
                 <Route path='/posts/new' component={NewPost} onEnter={requireAuth}/>
+                <Route path='/posts/:post_id' component={ShowPost}/>
+                <Route path='/posts/:post_id/edit' component={EditPost} onEnter={requireAuth}/>
             </Route>
         </Router>
     </Provider>

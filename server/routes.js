@@ -2,6 +2,8 @@ let User = require('./models/user')
 let Post = require('./models/post')
 let jwt = require('jsonwebtoken')
 let secret = require('./config').SECRET
+const muler = require('multer')
+const upload = muler({dest: './public/uploads/images'})
 
 const generateToken = (user) => (
     jwt.sign(user, secret, {
@@ -71,28 +73,83 @@ module.exports = app => {
             })
         })
     })
-    app.post('/posts', requireAuth, (req, res) => {
-        let post = new Post()
-        post.title = req.body.title
-        post.content = req.body.content
-        post.save(err => {
-            if (err) {
-                return console.log(err)
+    app.post('/posts', requireAuth, upload.single('image'), (req, res) => {
+            let post = new Post()
+            post.title = req.body.title
+            post.content = req.body.content
+            if (req.file && req.file.filename) {
+                post.image = req.file.filename
             }
-            res.status(200).json({
-                post: post,
-                message: '文章创建成功!'
+            post.save(err => {
+                if (err) {
+                    return console.log(err)
+                }
+                res.status(200).json({
+                    post: post,
+                    message: '文章创建成功!'
+                })
             })
-        })
-    })
+        }
+    )
     app.get('/posts', (req, res) => {
-        Post.find({}, 'title', (err, posts) => {
+        Post.find({}, 'title image', (err, posts) => {
             if (err) {
                 return console.log(err)
             }
             res.status(200).json({
                 posts: posts,
                 message: '获取文章成功!'
+            })
+        })
+    })
+    app.get('/posts/:post_id', (req, res) => {
+        Post.findById({_id: req.params.post_id}, (err, post) => {
+            if (err) {
+                return res.status(422).json({error: err.message})
+            }
+            res.status(200).json({post: post})
+        })
+    })
+    app.put('/posts/:post_id', requireAuth, upload.single('image'), (req, res) => {
+        Post.findById({_id: req.params.post_id}, (err, post) => {
+            if (err) {
+                return res.status(422).json({error: error.message})
+            }
+            post.title = req.body.title
+            post.content = req.body.content
+            console.log(req.file.filename)
+            if (req.file && req.file.filename) {
+                post.image = req.file.filename
+            }
+            post.save(err => {
+                if (err) {
+                    return res.status(422).json({error: err.message})
+                }
+                return res.status(200).json({
+                    post: post,
+                    message: '文章更新成功'
+                })
+            })
+        })
+    })
+    app.delete('/posts/:post_id', requireAuth, (req, res) => {
+        let id = req.params.post_id
+        Post.findById({_id: id}, (err, post) => {
+            if (err) {
+                return res.status(422).json({
+                    error: err.message
+                })
+            }
+            post.remove(err => {
+                if (err) {
+                    return res.status(422).json({
+                        error: err.message
+                    })
+                }
+                res.json({
+                    id: id,
+                    message: '文章删除成功'
+                })
             })
         })
     })

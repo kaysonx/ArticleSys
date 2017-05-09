@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import {Settings} from '../settings';
 
 class CoverImageUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: ''
+            image: this.props.image ? `${Settings.host}/uploads/images/${this.props.image}` : ''
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -68,6 +69,7 @@ class CoverImageUpload extends Component {
                 this.setState({
                     image: e.target.result
                 });
+                this.props.handleImage(file);
             };
             reader.readAsDataURL(file);
         }

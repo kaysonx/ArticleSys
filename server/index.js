@@ -5,11 +5,13 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const routes = require('./routes')
 const cors = require('cors')
+const path = require('path')
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.use(cors())
+app.use(express.static(path.join(__dirname, 'public')))
 
 routes(app)
 
